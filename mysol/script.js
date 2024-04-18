@@ -2,21 +2,30 @@ const gameboard = (function gameboard() {
   const rows = 3;
   const columns = 3;
   const board = [];
-  for (let i = 0; i < rows.length; i++) {
+  for (let i = 0; i < rows; i++) {
     board[i] = [];
-    for (let j = 0; j < columns.length; j++) {
+   
+    for (let j = 0; j < columns; j++) {
       board[i].push(cell());
     }
   }
   const getBoard = () => board;
-  const dropToken = (row, column, playertoken) => {
+  const dropToken = (row, column, p) => {
     // drop token inside that cell bro
+   
+   
+    let newcell = cell();
+    newcell.setToken(p.token);
+    board[row][column] = newcell;
+
   };
   return {
     dropToken,
     getBoard,
   };
 })(); //IIFE
+
+
 function cell() {
   let val = "-";
   const getValue = () => val;
@@ -32,10 +41,15 @@ function cell() {
     clearToken,
   };
 }
+function player(){
+  return {
+    token:"X",
+  };
+}
 /**
  * basic gameboard operations
- *  playRound
- * Clearboard
+ * playRound
+ * clearboard
  * checkwin
  * checkTie
  * newGame
@@ -51,10 +65,22 @@ const gameController = (function (
   ];
   const newGame = () => {
     //clear all cells
+    clearBoard();
+    switchPlayer();
+
+     
    
   };
+
+  const clearBoard = () => {
+  board.forEach(row => {
+      row.forEach(cell => {
+        cell.clearToken();
+      });
+  });
+  }
   const switchPlayer = () => {
-  
+      
   };
   const playRound = (row, col, player) => {
     //drop the token into the cell at that row and column
